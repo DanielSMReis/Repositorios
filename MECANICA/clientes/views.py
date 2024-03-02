@@ -14,8 +14,6 @@ def clientes(request):
         anos = request.POST.getlist('ano')
 
 
-        print(carros)
-        print(placas)
-        print(anos)
+
 
         return HttpResponse('teste')
