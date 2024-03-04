@@ -5,7 +5,8 @@ import re
 # Create your views here.
 def clientes(request):
     if request.method == "GET":
-        return render(request, 'clientes.html')     #por padrao o django ja procura dentro da pasta template
+        clientes_list = Cliente.objects.all()
+        return render(request, 'clientes.html', {'clientes': clientes_list})     #por padrao o django ja procura dentro da pasta template
     elif request.method == "POST":
         nome = request.POST.get('nome')
         sobrenome = request.POST.get('sobrenome')
