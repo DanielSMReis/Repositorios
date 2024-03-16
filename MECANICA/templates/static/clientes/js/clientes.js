@@ -33,10 +33,12 @@ function dados_clientes(){
     //precisa passar o dominio para o qual sera passado a requisição, depois os dados(method)
     //quando precisamos passar uma req HTTP precisamos enviar dois tipos de dados para o backend que é o cabeçalho e o corpo da req
     //as funçoes do django exigem que seja passada no corpo da req o csrftoken, que esta sendo gerada em clientes.html linha 22 (esse token gera um value unico que pode ser usado para referenciar a função)
-    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]') //obtendo o token
+    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value //obtendo o VALOR do token
     id_cliente = cliente.value
 
-    data = new FornData()
+    console.log(csrf_token)
+
+    data = new FormData()
     data.append('id_cliente', id_cliente)
 
     fetch("/clientes/atualiza_cliente/",{
@@ -49,7 +51,21 @@ function dados_clientes(){
         return result.json()
 
     }).then(function(data){
-        console.log('testee')
+        
+        document.getElementById('form-att-cliente').style.display = 'block'
+
+        nome = document.getElementById('nome')
+        nome.value = data['nome']
+
+        sobrenome = document.getElementById('sobrenome')
+        sobrenome.value = data['sobrenome']
+
+        email = document.getElementById('email')
+        email.value = data['email']
+
+        cpf = document.getElementById('cpf')
+        cpf.value = data['cpf']
+
     })
 
 }

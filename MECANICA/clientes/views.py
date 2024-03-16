@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Cliente, Carro
 import re
-# Create your views here.
+from django.core import serializers
+import json
+
+
 def clientes(request):
     if request.method == "GET":
         clientes_list = Cliente.objects.all()
@@ -42,3 +45,15 @@ def clientes(request):
             car.save()
 
         return HttpResponse('teste')
+    
+##como esta requisição esta iniciada com javascript para nao ser reenderizada em html e passar somente os dados passamos via Json (jsonresponse)
+def att_cliente(request):                
+    id_cliente = request.POST.get('id_cliente')
+    
+    #pegando os dados do cliente cuja id foi passada pela request do model Cliente(BdD)
+    cliente = Cliente.objects.filter(id=id_cliente) 
+
+    #usando o serializador do djamgo para importar os dados do cliente em formato json
+    cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
+    print(cliente_json)
+    return  JsonResponse({"teste": 1})
