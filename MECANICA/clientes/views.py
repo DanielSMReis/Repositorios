@@ -55,5 +55,5 @@ def att_cliente(request):
 
     #usando o serializador do djamgo para importar os dados do cliente em formato json
     cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
-    print(cliente_json)
-    return  JsonResponse({"teste": 1})
+    
+    return  JsonResponse(cliente_json)
