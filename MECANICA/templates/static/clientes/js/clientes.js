@@ -49,7 +49,6 @@ function dados_clientes(){
         return result.json()
 
     }).then(function(data){
-        console.log(data)
 
         aux = document.getElementById('form-att-cliente')
         aux.style.display = 'block'
@@ -61,10 +60,16 @@ function dados_clientes(){
         sobrenome.value = data['cliente']['sobrenome']
 
         email = document.getElementById('email')
-        email.value = data['cliente']['email']
 
         cpf = document.getElementById('cpf')
         cpf.value = data['cliente']['cpf']
+
+        div_carros = document.getElementById('carros')
+
+        for (i=0; i<data['carros'].length; i++){
+            
+            console.log(data['carros'][i]['fields']['carro'])
+        }
 
     })
 

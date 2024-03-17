@@ -58,7 +58,7 @@ def att_cliente(request):
     #usando o serializador do djamgo para importar os dados do cliente e de seus respectivos carros em formato json
     cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']    
     carros_json = json.loads(serializers.serialize('json', carros))
-    print(carros_json)
+    
     #coletando somente as informaçoes do carro e seu respectivo id em PK
     carros_json = [{'fields':carro['fields'], 'id': carro['pk']}    for carro in carros_json]
     
