@@ -52,8 +52,15 @@ def att_cliente(request):
     
     #pegando os dados do cliente cuja id foi passada pela request do model Cliente(BdD)
     cliente = Cliente.objects.filter(id=id_cliente) 
+    #capturando o carro do cliente, como o filter retorna um objeto com varios parametros, o label 0 de cliente seleta apenas o nome do cliente
+    carros = Carro.objects.filter(cliente=cliente[0])
 
-    #usando o serializador do djamgo para importar os dados do cliente em formato json
-    cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
+    #usando o serializador do djamgo para importar os dados do cliente e de seus respectivos carros em formato json
+    cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']    
+    carros_json = json.loads(serializers.serialize('json', carros))
+    print(carros_json)
+    #coletando somente as informaçoes do carro e seu respectivo id em PK
+    carros_json = [{'fields':carro['fields'], 'id': carro['pk']}    for carro in carros_json]
     
-    return  JsonResponse(cliente_json)
+    data = {'cliente':cliente_json, 'carros': carros_json}
+    return  JsonResponse(data)

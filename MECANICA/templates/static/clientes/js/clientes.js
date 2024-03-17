@@ -36,8 +36,6 @@ function dados_clientes(){
     csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value //obtendo o VALOR do token
     id_cliente = cliente.value
 
-    console.log(csrf_token)
-
     data = new FormData()
     data.append('id_cliente', id_cliente)
 
@@ -51,20 +49,22 @@ function dados_clientes(){
         return result.json()
 
     }).then(function(data){
-        
-        document.getElementById('form-att-cliente').style.display = 'block'
+        console.log(data)
+
+        aux = document.getElementById('form-att-cliente')
+        aux.style.display = 'block'
 
         nome = document.getElementById('nome')
-        nome.value = data['nome']
+        nome.value = data['cliente']['nome']
 
         sobrenome = document.getElementById('sobrenome')
-        sobrenome.value = data['sobrenome']
+        sobrenome.value = data['cliente']['sobrenome']
 
         email = document.getElementById('email')
-        email.value = data['email']
+        email.value = data['cliente']['email']
 
         cpf = document.getElementById('cpf')
-        cpf.value = data['cpf']
+        cpf.value = data['cliente']['cpf']
 
     })
 
