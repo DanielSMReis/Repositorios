@@ -64,3 +64,11 @@ def att_cliente(request):
     
     data = {'cliente':cliente_json, 'carros': carros_json}
     return  JsonResponse(data)
+
+
+def update_carro(request,id):
+    nome_carro = request.POST.get('carro')
+    placa = request.POST.get('placa')
+    ano = request.POST.get('ano')
+
+    return HttpResponse(nome_carro)
