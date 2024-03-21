@@ -11,7 +11,7 @@ Front-end: Desenvolver as interfaces da aplicação com HTML, CSS e JavaScript, 
 
 Inspiração:
 Este projeto está sendo desenvolvido com a ajuda do canal Pythonando no YouTube, que oferece tutoriais de alta qualidade sobre Django e Python.
-
+____________________________________________________________________________________________________________________________________________
 Tecnologias:
 Backend: Django, Python
 Frontend: HTML, CSS, JavaScript
@@ -22,7 +22,7 @@ Canal Pythonando no YouTube: https://www.youtube.com/@pythonando
 Documentação Django: https://docs.djangoproject.com/en/stable/
 
 Tutoriais Django: https://www.w3schools.com/django/
-
+____________________________________________________________________________________________________________________________________________
 Etapas do Projeto:
 Instalação do Django e criação do projeto:
 Instalar o Django e as dependências necessárias.
