@@ -18,7 +18,9 @@ Frontend: HTML, CSS, JavaScript
 
 Recursos:
 Canal Pythonando no YouTube: https://www.youtube.com/@pythonando
+
 Documentação Django: https://docs.djangoproject.com/en/stable/
+
 Tutoriais Django: https://www.w3schools.com/django/
 
 Etapas do Projeto:
