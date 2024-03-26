@@ -94,3 +94,7 @@ def excluir_carro(request, id):
         return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
     except:
         return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
+
+
+def update_cliente(request, id):
+    pass
