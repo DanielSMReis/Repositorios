@@ -49,10 +49,12 @@ function dados_clientes(){
         return result.json()
 
     }).then(function(data){
-
         aux = document.getElementById('form-att-cliente')
         aux.style.display = 'block'
 
+        id = document.getElementById('id')
+        id.value = data['cliente_id']
+        
         nome = document.getElementById('nome')
         nome.value = data['cliente']['nome']
 
