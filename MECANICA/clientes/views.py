@@ -121,6 +121,8 @@ def excluir_carro(request, id):
     except:
         return redirect(reverse("clientes") + f"?aba=att_cliente&id_cliente={id}")
 
-
+#como o backend recebe o ID pela URL, o que faz com que a tratativa seja feita no clientes.js
 def update_cliente(request, id):
-    pass
+    corpo = request.body
+    print(corpo)
+    return JsonResponse({'teste': 'UPCLIENT'})

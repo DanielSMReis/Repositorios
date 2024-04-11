@@ -70,7 +70,7 @@ function dados_clientes(){
         div_carros = document.getElementById('carros')
         div_carros.innerHTML = ""
 
-        for (i=0; i<data['carros'].length; i++){
+        for (i=0; i < data['carros'].length; i++){
             div_carros.innerHTML += "\<form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
                 <div class = 'row'>\
                         <div class='col-md'>\
@@ -93,6 +93,34 @@ function dados_clientes(){
             
         }
 
+    })
+
+}
+
+function update_cliente(){
+    id = document.getElementById('id').value
+    nome = document.getElementById('nome').value
+    sobrenome = document.getElementById('sobrenome').value
+    email = document.getElementById('email').value
+    cpf = document.getElementById('cpf').value
+    //enviando os dados do cliente.html para o backend usando o fetch
+    fetch('/clientes/update_cliente/' +id, {
+
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrf_token,
+        },
+        body: JSON.stringify({
+            nome: nome,
+            sobrenome: sobrenome,
+            email: email,
+            cpf: cpf
+        })
+
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+        console.log(data)
     })
 
 }
