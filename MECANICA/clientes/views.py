@@ -6,7 +6,7 @@ from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 
 def clientes(request):
@@ -123,6 +123,22 @@ def excluir_carro(request, id):
 
 #como o backend recebe o ID pela URL, o que faz com que a tratativa seja feita no clientes.js
 def update_cliente(request, id):
-    corpo = request.body
-    print(corpo)
-    return JsonResponse({'teste': 'UPCLIENT'})
+    #convertendo os dados binarios armazenados na req. para json
+    body = json.loads(request.body)
+    nome = body['nome']
+    sobrenome = body['sobrenome']
+    email = body['email']
+    cpf = body['cpf']
+    
+    #usando o get_object_or_404 para buscar no banco de dados local qual cliente será atualizado
+    cliente = get_object_or_404(Cliente, id=id) #comando getobjector404 = (qual model,qual coluna = compar com)
+    #carregando novos valores e salvando no model
+    try: ######## FAZER AS REVALIDAÇOES DOS DADOS ABAIXO!############
+        cliente.nome = nome    
+        cliente.sobrenome = sobrenome
+        cliente.email = email
+        cliente.cpf = cpf
+        cliente.save()
+        return JsonResponse({'status': 200, 'nome': nome, 'sobrenome': sobrenome, 'email': email, 'cpf': cpf})
+    except:
+        return JsonResponse({'status':500})
