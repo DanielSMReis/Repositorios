@@ -1,1 +1,15 @@
-novo servico
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+     <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+{% endblock %}
+
+{% block 'dashboard' %}
+    <br>
+    <br>
+    <div class "container">
+        <!-- .as_p faz com que o form venha como paragrafos <p> </p> -->
+        {{form.as_p}}
+    </div>
+{% endblock %}
