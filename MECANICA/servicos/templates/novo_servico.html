@@ -9,7 +9,11 @@
     <br>
     <br>
     <div class "container">
-        <!-- .as_p faz com que o form venha como paragrafos <p> </p> -->
-        {{form.as_p}}
+        <form action="{% url 'novo_servico'%}" method="POST">{% csrf_token %}
+        <!--o form abaixo esta chamando o arquivo Forms.py; .as_p faz com que o form venha como paragrafos <p> </p> -->
+            {{form.as_p}}
+            <input type="submit" class= "btn btn-success" value="Salvar">
+        </form>
     </div>
+
 {% endblock %}

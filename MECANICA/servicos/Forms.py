@@ -1,8 +1,4 @@
-from typing import Any, Mapping
-from django.core.files.base import File
-from django.db.models.base import Model
 from django.forms import ModelForm
-from django.forms.utils import ErrorList
 from .models import Servico, CategoriaManutencao
 
 #criando um formulario usand o recurs ModelForm do Django, os campos do formulário ja vem definidos de acordo com a classe ancestral
@@ -21,7 +17,14 @@ class FormServico (ModelForm):
     def __init__(self, *args, **kwargs):
         #execussao obrigatória do super para sobrescrever o innit desta classe, precisamos referenciar a sobrescriçao na classe ancestral usando o "super"
         super().__init__(*args, **kwargs)
-        #acessando o diionario python retornado do self.fields e adicionando um novo atributo em todos os campos, uma classe do bootstrap(manipulando html com python)
+        #acessando o dicionario python retornado do self.fields e adicionando um novo atributo em todos os campos, uma classe do bootstrap(manipulando html com python)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
             self.fields[field].widget.attrs.update({'placeholder': field})
+        
+        choices = list()
+        for i, j in self.fields['categoria_manutencao'].choices:
+            categoria = CategoriaManutencao.objects.get(titulo=j)
+            choices.append((i.value, categoria.get_titulo_display()))
+        
+        self.fields['categoria_manutencao'].choices = choices
