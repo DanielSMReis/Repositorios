@@ -1,7 +1,7 @@
 #from xmlrpc.client import ProtocolError
 from django.db import models
 from email.policy import default
-from secrets import token_hex
+from secrets import token_hex,token_urlsafe
 from clientes.models import Cliente
 from .choices import ChoicesCategoriaManutencao
 from datetime import datetime
@@ -25,6 +25,7 @@ class Servico(models.Model):
     data_entrega = models.DateField(null=True)
     finalizado = models.BooleanField(default=False)
     protocolo = models.CharField(max_length=52, null=True, blank=True)
+    identificador = models.CharField(max_length=24, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.titulo
@@ -34,6 +35,10 @@ class Servico(models.Model):
         if not self.protocolo:
             #criando novo protocolo usando como nome base a data e hora da criação e um token gerado pela biblioteca secrets do python, acada byte ela gera dois caracteres (na model o campo é de 52)
             self.protocolo = datetime.now().strftime("%d/%m/%Y-%H:%M:%S-") + token_hex(16)
+            
+        if not self.identificador:
+            #usando o token urlsafe para poder passar o index do serviço via url, uma vez que o tokenhex possue caracteres nao aceitos como parametro
+            self.identificador = token_urlsafe(16)
         #Executando atravez do super o metodo save do models do Django, atrelado a este save criado
         super(Servico,self).save(*args, **kwargs)
 
