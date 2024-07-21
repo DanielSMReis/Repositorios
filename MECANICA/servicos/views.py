@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 #importando o formulario local "." criado no backend
 from .Forms import FormServico
 from django.http import HttpResponse, FileResponse
-from .models import Servico
+from .models import Servico, ServicoAdicional
 from fpdf import FPDF
 from io import BytesIO
 # Create your views here.
@@ -44,24 +44,24 @@ def gerar_os(request, identificador):
     #criando uma tablea
     pdf.set_fill_color(240,240,240)
     #para pdf_cell(altura,largura,titulo,borda(0/1), pular linha(0/1),alinhamento(L/C/R),cor de fundo(0/1))
-    pdf.cell(45, 10, 'Cliente:', 1, 0, 'L', 1)
+    pdf.cell(36, 10, 'Cliente:', 1, 0, 'L', 1)
     pdf.cell(0, 10, f'{servico.cliente.nome}', 1, 1, 'L', 1)
-    pdf.cell(45, 10, 'Manutenções:', 1, 0, 'L',1)
+    pdf.cell(36, 10, 'Manutenções:', 1, 0, 'L',1)
 
     enumerar_categorias = servico.categoria_manutencao.all()
     for i, manutencao in enumerate(enumerar_categorias):
         pdf.cell(0, 10, f'- {manutencao.get_titulo_display()}', 1, 1, 'L', 1)
         if not i == len(enumerar_categorias) -1:
-            pdf.cell(35,10, '',0,0)
+            pdf.cell(36,10, '',0,0)
     
 
-    pdf.cell(45,10, 'Data de início:', 1, 0,'L',1)
+    pdf.cell(36,10, 'Data de início:', 1, 0,'L',1)
     pdf.cell(0,10, f'{servico.data_inicio}', 1,1,'L',1)
-    pdf.cell(45,10, 'Data de entrega:', 1, 0,'L',1)
+    pdf.cell(36,10, 'Data de entrega:', 1, 0,'L',1)
     pdf.cell(0,10, f'{servico.data_entrega}', 1,1,'L',1)
-    pdf.cell(35,10, 'Protocolo:', 1, 0,'L',1)
+    pdf.cell(36,10, 'Protocolo:', 1, 0,'L',1)
     pdf.cell(0,10, f'{servico.protocolo}', 1,1,'L',1)
-    pdf.cell(35,10, 'Preço total:', 1, 0,'L',1)
+    pdf.cell(36,10, 'Preço total:', 1, 0,'L',1)
     pdf.cell(0,10, f'{servico.preco_total()}', 1,1,'L',1)
     
     #Salvando o arquivo PDF em memoria para que seja exibido para os demais usuarios do sistema.
@@ -74,3 +74,20 @@ def gerar_os(request, identificador):
     pdf_bytes = BytesIO(pdf_content)
     #Para salvar automaticamente o PDF, basta por o parametro: "as_attachment=True" antes de filename.
     return FileResponse(pdf_bytes, filename=f"os-{servico.protocolo}.pdf")
+
+
+def servico_adicional(request):
+    identificador_servico = request.POST.get('identificador_servico')
+    titulo = request.POST.get('titulo')
+    descricao = request.POST.get('descricao')
+    preco = request.POST.get('preco')
+
+    servico_adicional = ServicoAdicional(titulo = titulo, descricao = descricao, preco = preco)
+    servico_adicional.save()
+
+    #criando um link entre o servico adicional e os servicos do cliente
+    servico = Servico.objects.get(identificador = identificador_servico)
+    servico.servicos_adicionais.add(servico_adicional)
+    servico.save()
+
+    return HttpResponse("Salvo")
